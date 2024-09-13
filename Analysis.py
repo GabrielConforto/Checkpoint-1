@@ -1,30 +1,55 @@
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 
-# Carregar a base de dados CSV
-file_path = 'caminho/para/seu/arquivo.csv'  # Substitua pelo caminho para seu arquivo CSV
-df = pd.read_csv(file_path)
+# Carregar o CSV
+df = pd.read_csv('https://raw.githubusercontent.com/GabrielConforto/Checkpoint-1/main/urls_phishing_checkpoint1.csv')
 
+amostra_df = df.sample(4000, random_state = 303)
 
-# Gerar uma amostra aleatória de 4000 dados
-np.random.seed(303)  # Definir o random_state
-sample_df = df['url_length'].sample(n=4000, random_state=303)
-
-# Calcular a média e a mediana
-mean_url_length = sample_df.mean()
-median_url_length = sample_df.median()
-
-print(f"Média da comprimento das URLs: {mean_url_length:.2f}")
-print(f"Mediana do comprimento das URLs: {median_url_length:.2f}")
+# Dividir o DataFrame em dois subconjuntos
+df1 = amostra_df[df['phishing'] == 1] # phishing
+df0 = amostra_df[df['phishing'] == 0] # legítima
 
 
-plt.figure(figsize=(12, 6))
-sns.histplot(sample_df, bins=30, kde=True)
-plt.title('Distribuição do Comprimento das URLs')
-plt.xlabel('Comprimento da URL')
-plt.ylabel('Frequência')
-plt.show()
+print('-----------------------------')
 
+# Média de todas as observações da base
+mean_value = round(df['length_url'].mean(),2)
+print(f"A média da coluna 'length_url' é: {mean_value} (Todas URLs)")
 
+# Média das URLs - Phishing
+mean_value1 = round(df1['length_url'].mean(),2)
+print(f"{mean_value1} (URLs Phishing)")
+
+# Média das URLs - Legítima
+mean_value0 = round(df0['length_url'].mean(),2)
+print(f"{mean_value0} (URLs Legítima)")
+
+print('-----------------------------')
+
+# Mediana de todas as observações da base
+median_value = df['length_url'].median()
+print(f"A mediana da coluna 'length_url' é: {median_value} (Todas URLs)")
+
+# Mediana das URLs - Phishing
+median_value1 = df1['length_url'].median()
+print(f"{median_value1} (URLs Phishing)")
+
+# Mediana das URLs - Legítima
+median_value0 = df0['length_url'].median()
+print(f"{median_value0} (URLs Legítima)")
+
+print('-----------------------------')
+
+# Desvio padrão de todas as observações da base
+std_value = round(df['length_url'].std(),2)
+print(f"O desvio padrão da coluna 'length_url' é: {std_value} (Todas URLs)")
+
+# Desvio padrão das URLs - Phishing
+std_value1 = round(df1['length_url'].std(),2)
+print(f"{std_value1}(URLs Phishing)")
+
+# Desvio padrão das URLs - Legítima
+std_value0 = round(df0['length_url'].std(),2)
+print(f"{std_value0} (URLs Legítima)")
+
+print('-----------------------------')
